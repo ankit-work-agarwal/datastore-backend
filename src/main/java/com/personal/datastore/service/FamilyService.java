@@ -1,22 +1,23 @@
 package com.personal.datastore.service;
 
 import com.personal.datastore.model.FamilyMember;
+import com.personal.datastore.repository.FamilyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FamilyService {
 
-    private List<FamilyMember> familyList = new ArrayList<>();
+    @Autowired
+    private FamilyRepository repository;
 
     public FamilyMember addMember(FamilyMember member) {
-        familyList.add(member);
-        return member;
+        return repository.save(member);
     }
 
     public List<FamilyMember> getAllMembers() {
-        return familyList;
+        return repository.findAll();
     }
 }
