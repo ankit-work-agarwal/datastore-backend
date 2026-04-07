@@ -1,0 +1,26 @@
+package com.personal.datastore.controller;
+
+import com.personal.datastore.model.FamilyMember;
+import com.personal.datastore.service.FamilyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/family")
+public class FamilyController {
+
+    @Autowired
+    private FamilyService service;
+
+    @PostMapping
+    public FamilyMember addMember(@RequestBody FamilyMember member) {
+        return service.addMember(member);
+    }
+
+    @GetMapping
+    public List<FamilyMember> getAll() {
+        return service.getAllMembers();
+    }
+}
