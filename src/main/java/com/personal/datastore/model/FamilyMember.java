@@ -50,4 +50,8 @@ public class FamilyMember {
     @JsonManagedReference("contact-ref")
     @OneToMany(mappedBy = "addedBy", cascade = CascadeType.ALL)
     private List<Contact> contacts;
+
+    @JsonManagedReference("subscription-ref")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Subscription> subscriptions;
 }

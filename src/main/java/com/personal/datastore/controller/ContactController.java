@@ -26,10 +26,14 @@ public class ContactController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public ContactDTO update(@PathVariable Long id, @RequestBody Contact contact) {
+        return service.update(id, contact);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Contact with id " + id + " deleted successfully");
     }
 }
-

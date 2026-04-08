@@ -43,6 +43,19 @@ public class MedicalRecordService {
         repository.deleteById(id);
     }
 
+    public MedicalRecordDTO update(Long id, MedicalRecord updated) {
+        MedicalRecord existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
+        existing.setType(updated.getType());
+        existing.setTitle(updated.getTitle());
+        existing.setDoctorName(updated.getDoctorName());
+        existing.setHospitalName(updated.getHospitalName());
+        existing.setRecordDate(updated.getRecordDate());
+        existing.setNotes(updated.getNotes());
+        existing.setFilePath(updated.getFilePath());
+        return mapToDTO(repository.save(existing));
+    }
+
     private MedicalRecordDTO mapToDTO(MedicalRecord record) {
         MedicalRecordDTO dto = new MedicalRecordDTO();
         dto.setId(record.getId());
@@ -56,4 +69,3 @@ public class MedicalRecordService {
         return dto;
     }
 }
-

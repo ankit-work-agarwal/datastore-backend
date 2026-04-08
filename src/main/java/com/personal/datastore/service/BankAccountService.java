@@ -43,6 +43,19 @@ public class BankAccountService {
         repository.deleteById(id);
     }
 
+    public BankAccountDTO update(Long id, BankAccount updated) {
+        BankAccount existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Bank account not found with id: " + id));
+        existing.setAccountType(updated.getAccountType());
+        existing.setBankName(updated.getBankName());
+        existing.setAccountNumber(updated.getAccountNumber());
+        existing.setIfscCode(updated.getIfscCode());
+        existing.setBranchName(updated.getBranchName());
+        existing.setBalance(updated.getBalance());
+        existing.setOpenedDate(updated.getOpenedDate());
+        return mapToDTO(repository.save(existing));
+    }
+
     private BankAccountDTO mapToDTO(BankAccount account) {
         BankAccountDTO dto = new BankAccountDTO();
         dto.setId(account.getId());

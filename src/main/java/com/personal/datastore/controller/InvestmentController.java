@@ -26,10 +26,14 @@ public class InvestmentController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public InvestmentDTO update(@PathVariable Long id, @RequestBody Investment investment) {
+        return service.update(id, investment);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Investment with id " + id + " deleted successfully");
     }
 }
-

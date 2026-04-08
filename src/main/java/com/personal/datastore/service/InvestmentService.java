@@ -43,6 +43,19 @@ public class InvestmentService {
         repository.deleteById(id);
     }
 
+    public InvestmentDTO update(Long id, Investment updated) {
+        Investment existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Investment not found with id: " + id));
+        existing.setType(updated.getType());
+        existing.setName(updated.getName());
+        existing.setInstitution(updated.getInstitution());
+        existing.setInvestedAmount(updated.getInvestedAmount());
+        existing.setCurrentValue(updated.getCurrentValue());
+        existing.setStartDate(updated.getStartDate());
+        existing.setMaturityDate(updated.getMaturityDate());
+        return mapToDTO(repository.save(existing));
+    }
+
     private InvestmentDTO mapToDTO(Investment investment) {
         InvestmentDTO dto = new InvestmentDTO();
         dto.setId(investment.getId());

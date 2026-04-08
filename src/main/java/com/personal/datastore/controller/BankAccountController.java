@@ -26,10 +26,14 @@ public class BankAccountController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public BankAccountDTO update(@PathVariable Long id, @RequestBody BankAccount account) {
+        return service.update(id, account);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Bank account with id " + id + " deleted successfully");
     }
 }
-

@@ -26,10 +26,14 @@ public class InsuranceController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public InsuranceDTO update(@PathVariable Long id, @RequestBody Insurance insurance) {
+        return service.update(id, insurance);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Insurance with id " + id + " deleted successfully");
     }
 }
-

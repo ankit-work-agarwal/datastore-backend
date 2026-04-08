@@ -43,6 +43,21 @@ public class PropertyService {
         repository.deleteById(id);
     }
 
+    public PropertyDTO update(Long id, Property updated) {
+        Property existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
+        existing.setType(updated.getType());
+        existing.setAddress(updated.getAddress());
+        existing.setCity(updated.getCity());
+        existing.setState(updated.getState());
+        existing.setPurchaseDate(updated.getPurchaseDate());
+        existing.setPurchaseValue(updated.getPurchaseValue());
+        existing.setCurrentValue(updated.getCurrentValue());
+        existing.setIsRented(updated.getIsRented());
+        existing.setRentalIncome(updated.getRentalIncome());
+        return mapToDTO(repository.save(existing));
+    }
+
     private PropertyDTO mapToDTO(Property property) {
         PropertyDTO dto = new PropertyDTO();
         dto.setId(property.getId());
@@ -58,4 +73,3 @@ public class PropertyService {
         return dto;
     }
 }
-

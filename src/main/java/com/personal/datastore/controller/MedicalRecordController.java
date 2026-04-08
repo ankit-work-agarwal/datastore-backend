@@ -26,10 +26,14 @@ public class MedicalRecordController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public MedicalRecordDTO update(@PathVariable Long id, @RequestBody MedicalRecord record) {
+        return service.update(id, record);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Medical record with id " + id + " deleted successfully");
     }
 }
-

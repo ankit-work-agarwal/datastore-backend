@@ -8,6 +8,7 @@ import com.personal.datastore.dto.InsuranceDTO;
 import com.personal.datastore.dto.InvestmentDTO;
 import com.personal.datastore.dto.MedicalRecordDTO;
 import com.personal.datastore.dto.PropertyDTO;
+import com.personal.datastore.dto.SubscriptionDTO;
 import com.personal.datastore.dto.VehicleDTO;
 import com.personal.datastore.model.BankAccount;
 import com.personal.datastore.model.Contact;
@@ -17,6 +18,7 @@ import com.personal.datastore.model.Insurance;
 import com.personal.datastore.model.Investment;
 import com.personal.datastore.model.MedicalRecord;
 import com.personal.datastore.model.Property;
+import com.personal.datastore.model.Subscription;
 import com.personal.datastore.model.Vehicle;
 import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.repository.FamilyRepository;
@@ -46,6 +48,16 @@ public class FamilyService {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Family member not found with id: " + id));
         repository.deleteById(id);
+    }
+
+    public FamilyMemberDTO update(Long id, FamilyMember updated) {
+        FamilyMember existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Family member not found with id: " + id));
+        existing.setName(updated.getName());
+        existing.setRelation(updated.getRelation());
+        existing.setPhone(updated.getPhone());
+        existing.setEmail(updated.getEmail());
+        return mapToDTO(repository.save(existing));
     }
 
     private FamilyMemberDTO mapToDTO(FamilyMember member) {
@@ -119,6 +131,14 @@ public class FamilyService {
                     .map(this::mapContact)
                     .toList();
             dto.setContacts(contacts);
+        }
+
+        if (member.getSubscriptions() != null) {
+            List<SubscriptionDTO> subscriptions = member.getSubscriptions()
+                    .stream()
+                    .map(this::mapSubscription)
+                    .toList();
+            dto.setSubscriptions(subscriptions);
         }
 
         return dto;
@@ -218,6 +238,20 @@ public class FamilyService {
         dto.setEmail(contact.getEmail());
         dto.setOrganization(contact.getOrganization());
         dto.setNotes(contact.getNotes());
+        return dto;
+    }
+
+    private SubscriptionDTO mapSubscription(Subscription subscription) {
+        SubscriptionDTO dto = new SubscriptionDTO();
+        dto.setId(subscription.getId());
+        dto.setName(subscription.getName());
+        dto.setCategory(subscription.getCategory());
+        dto.setAmount(subscription.getAmount());
+        dto.setBillingCycle(subscription.getBillingCycle());
+        dto.setStartDate(subscription.getStartDate());
+        dto.setRenewalDate(subscription.getRenewalDate());
+        dto.setIsActive(subscription.getIsActive());
+        dto.setNotes(subscription.getNotes());
         return dto;
     }
 }

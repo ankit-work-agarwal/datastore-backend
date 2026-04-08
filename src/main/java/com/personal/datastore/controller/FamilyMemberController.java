@@ -26,10 +26,14 @@ public class FamilyMemberController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public FamilyMemberDTO update(@PathVariable Long id, @RequestBody FamilyMember member) {
+        return service.update(id, member);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Family member with id " + id + " deleted successfully");
     }
 }
-

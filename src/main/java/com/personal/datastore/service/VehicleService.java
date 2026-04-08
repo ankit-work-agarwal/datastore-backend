@@ -32,6 +32,15 @@ public class VehicleService {
         repository.deleteById(id);
     }
 
+    public VehicleDTO update(Long id, Vehicle updated) {
+        Vehicle existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));
+        existing.setType(updated.getType());
+        existing.setModel(updated.getModel());
+        existing.setRegistrationNumber(updated.getRegistrationNumber());
+        return mapToDTO(repository.save(existing));
+    }
+
     private VehicleDTO mapToDTO(Vehicle vehicle) {
         VehicleDTO dto = new VehicleDTO();
         dto.setId(vehicle.getId());
@@ -41,4 +50,3 @@ public class VehicleService {
         return dto;
     }
 }
-

@@ -26,10 +26,14 @@ public class VehicleController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public VehicleDTO update(@PathVariable Long id, @RequestBody Vehicle vehicle) {
+        return service.update(id, vehicle);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Vehicle with id " + id + " deleted successfully");
     }
 }
-

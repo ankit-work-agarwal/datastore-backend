@@ -43,6 +43,18 @@ public class ContactService {
         repository.deleteById(id);
     }
 
+    public ContactDTO update(Long id, Contact updated) {
+        Contact existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Contact not found with id: " + id));
+        existing.setName(updated.getName());
+        existing.setCategory(updated.getCategory());
+        existing.setPhone(updated.getPhone());
+        existing.setEmail(updated.getEmail());
+        existing.setOrganization(updated.getOrganization());
+        existing.setNotes(updated.getNotes());
+        return mapToDTO(repository.save(existing));
+    }
+
     private ContactDTO mapToDTO(Contact contact) {
         ContactDTO dto = new ContactDTO();
         dto.setId(contact.getId());
@@ -55,4 +67,3 @@ public class ContactService {
         return dto;
     }
 }
-

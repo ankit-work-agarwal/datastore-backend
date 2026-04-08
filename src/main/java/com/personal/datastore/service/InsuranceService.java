@@ -43,6 +43,19 @@ public class InsuranceService {
         repository.deleteById(id);
     }
 
+    public InsuranceDTO update(Long id, Insurance updated) {
+        Insurance existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Insurance not found with id: " + id));
+        existing.setType(updated.getType());
+        existing.setPolicyNumber(updated.getPolicyNumber());
+        existing.setProvider(updated.getProvider());
+        existing.setPremiumAmount(updated.getPremiumAmount());
+        existing.setSumAssured(updated.getSumAssured());
+        existing.setStartDate(updated.getStartDate());
+        existing.setExpiryDate(updated.getExpiryDate());
+        return mapToDTO(repository.save(existing));
+    }
+
     private InsuranceDTO mapToDTO(Insurance insurance) {
         InsuranceDTO dto = new InsuranceDTO();
         dto.setId(insurance.getId());
@@ -56,4 +69,3 @@ public class InsuranceService {
         return dto;
     }
 }
-

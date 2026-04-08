@@ -26,10 +26,14 @@ public class PropertyController {
         return service.getAll();
     }
 
+    @PutMapping("/{id}")
+    public PropertyDTO update(@PathVariable Long id, @RequestBody Property property) {
+        return service.update(id, property);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Property with id " + id + " deleted successfully");
     }
 }
-
