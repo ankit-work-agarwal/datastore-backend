@@ -2,9 +2,13 @@ package com.personal.datastore.service;
 
 import com.personal.datastore.dto.DocumentDTO;
 import com.personal.datastore.dto.FamilyMemberDTO;
+import com.personal.datastore.dto.InsuranceDTO;
+import com.personal.datastore.dto.InvestmentDTO;
 import com.personal.datastore.dto.VehicleDTO;
 import com.personal.datastore.model.Document;
 import com.personal.datastore.model.FamilyMember;
+import com.personal.datastore.model.Insurance;
+import com.personal.datastore.model.Investment;
 import com.personal.datastore.model.Vehicle;
 import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.repository.FamilyRepository;
@@ -61,6 +65,22 @@ public class FamilyService {
             dto.setDocuments(docs);
         }
 
+        if (member.getInvestments() != null) {
+            List<InvestmentDTO> investments = member.getInvestments()
+                    .stream()
+                    .map(this::mapInvestment)
+                    .toList();
+            dto.setInvestments(investments);
+        }
+
+        if (member.getInsurances() != null) {
+            List<InsuranceDTO> insurances = member.getInsurances()
+                    .stream()
+                    .map(this::mapInsurance)
+                    .toList();
+            dto.setInsurances(insurances);
+        }
+
         return dto;
     }
 
@@ -80,7 +100,32 @@ public class FamilyService {
         dto.setType(doc.getType());
         dto.setFilePath(doc.getFilePath());
         dto.setExpiryDate(doc.getExpiryDate());
+        return dto;
+    }
 
+    private InvestmentDTO mapInvestment(Investment investment) {
+        InvestmentDTO dto = new InvestmentDTO();
+        dto.setId(investment.getId());
+        dto.setType(investment.getType());
+        dto.setName(investment.getName());
+        dto.setInstitution(investment.getInstitution());
+        dto.setInvestedAmount(investment.getInvestedAmount());
+        dto.setCurrentValue(investment.getCurrentValue());
+        dto.setStartDate(investment.getStartDate());
+        dto.setMaturityDate(investment.getMaturityDate());
+        return dto;
+    }
+
+    private InsuranceDTO mapInsurance(Insurance insurance) {
+        InsuranceDTO dto = new InsuranceDTO();
+        dto.setId(insurance.getId());
+        dto.setType(insurance.getType());
+        dto.setPolicyNumber(insurance.getPolicyNumber());
+        dto.setProvider(insurance.getProvider());
+        dto.setPremiumAmount(insurance.getPremiumAmount());
+        dto.setSumAssured(insurance.getSumAssured());
+        dto.setStartDate(insurance.getStartDate());
+        dto.setExpiryDate(insurance.getExpiryDate());
         return dto;
     }
 }

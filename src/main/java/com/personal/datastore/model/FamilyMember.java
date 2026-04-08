@@ -1,7 +1,6 @@
 package com.personal.datastore.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.personal.datastore.dto.DocumentDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,4 +26,12 @@ public class FamilyMember {
     @JsonManagedReference("document-ref")
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Document> documents;
+
+    @JsonManagedReference("investment-ref")
+    @OneToMany(mappedBy = "holder", cascade = CascadeType.ALL)
+    private List<Investment> investments;
+
+    @JsonManagedReference("insurance-ref")
+    @OneToMany(mappedBy = "holder", cascade = CascadeType.ALL)
+    private List<Insurance> insurances;
 }
