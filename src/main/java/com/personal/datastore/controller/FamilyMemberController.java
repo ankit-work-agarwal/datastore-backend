@@ -29,7 +29,7 @@ public class FamilyMemberController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.ok("Family member deleted successfully");
+        return ResponseEntity.ok("Family member with id " + id + " deleted successfully");
     }
 }
 

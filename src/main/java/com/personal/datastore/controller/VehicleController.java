@@ -29,7 +29,7 @@ public class VehicleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.ok("Vehicle deleted successfully");
+        return ResponseEntity.ok("Vehicle with id " + id + " deleted successfully");
     }
 }
 

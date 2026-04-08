@@ -1,5 +1,6 @@
 package com.personal.datastore.service;
 import com.personal.datastore.dto.DocumentDTO;
+import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.model.Document;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.repository.DocumentRepository;
@@ -26,7 +27,7 @@ public class DocumentService {
         if (doc.getOwner() != null && doc.getOwner().getId() != null) {
             FamilyMember fullOwner = familyRepository
                     .findById(doc.getOwner().getId())
-                    .orElseThrow(() -> new RuntimeException("Owner not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Family member not found with id: " + doc.getOwner().getId()));
             doc.setOwner(fullOwner);
         }
         return mapToDTO(repository.save(doc));
@@ -39,7 +40,7 @@ public class DocumentService {
     }
     public void delete(Long id) {
         repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Document not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
         repository.deleteById(id);
     }
     private DocumentDTO mapToDTO(Document doc) {

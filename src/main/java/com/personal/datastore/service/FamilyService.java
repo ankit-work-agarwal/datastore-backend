@@ -6,6 +6,7 @@ import com.personal.datastore.dto.VehicleDTO;
 import com.personal.datastore.model.Document;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.model.Vehicle;
+import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.repository.FamilyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class FamilyService {
 
     public void delete(Long id) {
         repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Family member not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Family member not found with id: " + id));
         repository.deleteById(id);
     }
 

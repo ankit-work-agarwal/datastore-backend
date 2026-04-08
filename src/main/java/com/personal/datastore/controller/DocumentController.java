@@ -33,7 +33,7 @@ public class DocumentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.ok("Document deleted successfully");
+        return ResponseEntity.ok("Document with id " + id + " deleted successfully");
     }
 }
 

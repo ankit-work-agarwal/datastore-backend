@@ -2,6 +2,7 @@ package com.personal.datastore.service;
 
 import com.personal.datastore.dto.VehicleDTO;
 import com.personal.datastore.model.Vehicle;
+import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class VehicleService {
 
     public void delete(Long id) {
         repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));
         repository.deleteById(id);
     }
 
