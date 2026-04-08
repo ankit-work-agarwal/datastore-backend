@@ -1,5 +1,7 @@
 package com.personal.datastore.service;
 
+import com.personal.datastore.dto.BankAccountDTO;
+import com.personal.datastore.dto.ContactDTO;
 import com.personal.datastore.dto.DocumentDTO;
 import com.personal.datastore.dto.FamilyMemberDTO;
 import com.personal.datastore.dto.InsuranceDTO;
@@ -7,6 +9,8 @@ import com.personal.datastore.dto.InvestmentDTO;
 import com.personal.datastore.dto.MedicalRecordDTO;
 import com.personal.datastore.dto.PropertyDTO;
 import com.personal.datastore.dto.VehicleDTO;
+import com.personal.datastore.model.BankAccount;
+import com.personal.datastore.model.Contact;
 import com.personal.datastore.model.Document;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.model.Insurance;
@@ -101,6 +105,22 @@ public class FamilyService {
             dto.setProperties(properties);
         }
 
+        if (member.getBankAccounts() != null) {
+            List<BankAccountDTO> bankAccounts = member.getBankAccounts()
+                    .stream()
+                    .map(this::mapBankAccount)
+                    .toList();
+            dto.setBankAccounts(bankAccounts);
+        }
+
+        if (member.getContacts() != null) {
+            List<ContactDTO> contacts = member.getContacts()
+                    .stream()
+                    .map(this::mapContact)
+                    .toList();
+            dto.setContacts(contacts);
+        }
+
         return dto;
     }
 
@@ -174,6 +194,30 @@ public class FamilyService {
         dto.setCurrentValue(property.getCurrentValue());
         dto.setIsRented(property.getIsRented());
         dto.setRentalIncome(property.getRentalIncome());
+        return dto;
+    }
+
+    private BankAccountDTO mapBankAccount(BankAccount account) {
+        BankAccountDTO dto = new BankAccountDTO();
+        dto.setId(account.getId());
+        dto.setAccountNumber(account.getAccountNumber());
+        dto.setBankName(account.getBankName());
+        dto.setBranchName(account.getBranchName());
+        dto.setIfscCode(account.getIfscCode());
+        dto.setAccountType(account.getAccountType());
+        dto.setBalance(account.getBalance());
+        return dto;
+    }
+
+    private ContactDTO mapContact(Contact contact) {
+        ContactDTO dto = new ContactDTO();
+        dto.setId(contact.getId());
+        dto.setName(contact.getName());
+        dto.setCategory(contact.getCategory());
+        dto.setPhone(contact.getPhone());
+        dto.setEmail(contact.getEmail());
+        dto.setOrganization(contact.getOrganization());
+        dto.setNotes(contact.getNotes());
         return dto;
     }
 }

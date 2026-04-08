@@ -42,4 +42,12 @@ public class FamilyMember {
     @JsonManagedReference("property-ref")
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Property> properties;
+
+    @JsonManagedReference("bank-account-ref")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<BankAccount> bankAccounts;
+
+    @JsonManagedReference("contact-ref")
+    @OneToMany(mappedBy = "addedBy", cascade = CascadeType.ALL)
+    private List<Contact> contacts;
 }
