@@ -30,10 +30,14 @@ public class DocumentController {
         return service.save(doc, file);
     }
 
+    @PutMapping("/{id}")
+    public DocumentDTO update(@PathVariable Long id, @RequestBody Document doc) {
+        return service.update(id, doc);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Document with id " + id + " deleted successfully");
     }
 }
-

@@ -54,4 +54,8 @@ public class FamilyMember {
     @JsonManagedReference("subscription-ref")
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Subscription> subscriptions;
+
+    @JsonManagedReference("loan-ref")
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    private List<Loan> loans;
 }

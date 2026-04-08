@@ -43,6 +43,14 @@ public class DocumentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
         repository.deleteById(id);
     }
+    public DocumentDTO update(Long id, Document updated) {
+        Document existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
+        existing.setTitle(updated.getTitle());
+        existing.setType(updated.getType());
+        existing.setExpiryDate(updated.getExpiryDate());
+        return mapToDTO(repository.save(existing));
+    }
     private DocumentDTO mapToDTO(Document doc) {
         DocumentDTO dto = new DocumentDTO();
         dto.setId(doc.getId());

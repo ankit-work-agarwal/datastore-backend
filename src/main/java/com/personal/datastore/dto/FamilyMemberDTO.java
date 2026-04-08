@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@JsonPropertyOrder({"id", "name", "relation", "phone", "email", "vehicles", "documents", "investments", "insurances", "medicalRecords", "properties", "bankAccounts", "contacts", "subscriptions"})
+@JsonPropertyOrder({"id", "name", "relation", "phone", "email", "vehicles", "documents", "investments", "insurances", "medicalRecords", "properties", "bankAccounts", "contacts", "subscriptions", "loans"})
 public class FamilyMemberDTO {
 
     private Long id;
@@ -23,4 +23,5 @@ public class FamilyMemberDTO {
     private List<BankAccountDTO> bankAccounts;
     private List<ContactDTO> contacts;
     private List<SubscriptionDTO> subscriptions;
+    private List<LoanDTO> loans;
 }

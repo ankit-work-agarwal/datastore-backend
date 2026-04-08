@@ -6,6 +6,7 @@ import com.personal.datastore.dto.DocumentDTO;
 import com.personal.datastore.dto.FamilyMemberDTO;
 import com.personal.datastore.dto.InsuranceDTO;
 import com.personal.datastore.dto.InvestmentDTO;
+import com.personal.datastore.dto.LoanDTO;
 import com.personal.datastore.dto.MedicalRecordDTO;
 import com.personal.datastore.dto.PropertyDTO;
 import com.personal.datastore.dto.SubscriptionDTO;
@@ -16,6 +17,7 @@ import com.personal.datastore.model.Document;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.model.Insurance;
 import com.personal.datastore.model.Investment;
+import com.personal.datastore.model.Loan;
 import com.personal.datastore.model.MedicalRecord;
 import com.personal.datastore.model.Property;
 import com.personal.datastore.model.Subscription;
@@ -141,6 +143,14 @@ public class FamilyService {
             dto.setSubscriptions(subscriptions);
         }
 
+        if (member.getLoans() != null) {
+            List<LoanDTO> loans = member.getLoans()
+                    .stream()
+                    .map(this::mapLoan)
+                    .toList();
+            dto.setLoans(loans);
+        }
+
         return dto;
     }
 
@@ -252,6 +262,22 @@ public class FamilyService {
         dto.setRenewalDate(subscription.getRenewalDate());
         dto.setIsActive(subscription.getIsActive());
         dto.setNotes(subscription.getNotes());
+        return dto;
+    }
+
+    private LoanDTO mapLoan(Loan loan) {
+        LoanDTO dto = new LoanDTO();
+        dto.setId(loan.getId());
+        dto.setLoanType(loan.getLoanType());
+        dto.setBankName(loan.getBankName());
+        dto.setAccountNumber(loan.getAccountNumber());
+        dto.setPrincipalAmount(loan.getPrincipalAmount());
+        dto.setOutstandingAmount(loan.getOutstandingAmount());
+        dto.setInterestRate(loan.getInterestRate());
+        dto.setEmiAmount(loan.getEmiAmount());
+        dto.setStartDate(loan.getStartDate());
+        dto.setEndDate(loan.getEndDate());
+        dto.setStatus(loan.getStatus());
         return dto;
     }
 }
