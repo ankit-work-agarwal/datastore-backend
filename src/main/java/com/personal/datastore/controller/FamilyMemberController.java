@@ -1,5 +1,6 @@
 package com.personal.datastore.controller;
 
+import com.personal.datastore.dto.FamilyMemberDTO;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/family")
-public class FamilyController {
+public class FamilyMemberController {
 
     @Autowired
     private FamilyService service;
@@ -20,7 +21,7 @@ public class FamilyController {
     }
 
     @GetMapping
-    public List<FamilyMember> getAll() {
-        return service.getAllMembers();
+    public List<FamilyMemberDTO> getAll() {
+        return service.getAll();
     }
 }

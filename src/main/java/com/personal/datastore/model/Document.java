@@ -2,21 +2,26 @@ package com.personal.datastore.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @Entity
-public class Vehicle {
+public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; // Car, Bike
-    private String model;
-    private String registrationNumber;
+    private String title;
+    private String type; // Aadhaar, PAN, etc.
+    private String filePath;
+    private LocalDate expiryDate;
 
-    @JsonBackReference("vehicle-ref")
+    @JsonBackReference("document-ref")
     @ManyToOne
     @JoinColumn(name = "family_member_id")
     private FamilyMember owner;

@@ -1,6 +1,7 @@
 package com.personal.datastore.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.personal.datastore.dto.DocumentDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,7 +20,11 @@ public class FamilyMember {
     private String phone;
     private String email;
 
-    @JsonManagedReference
+    @JsonManagedReference("vehicle-ref")
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
+
+    @JsonManagedReference("document-ref")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Document> documents;
 }
