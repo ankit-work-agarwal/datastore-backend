@@ -34,4 +34,12 @@ public class FamilyMember {
     @JsonManagedReference("insurance-ref")
     @OneToMany(mappedBy = "holder", cascade = CascadeType.ALL)
     private List<Insurance> insurances;
+
+    @JsonManagedReference("medical-ref")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MedicalRecord> medicalRecords;
+
+    @JsonManagedReference("property-ref")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Property> properties;
 }

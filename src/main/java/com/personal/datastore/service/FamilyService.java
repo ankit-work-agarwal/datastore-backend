@@ -4,11 +4,15 @@ import com.personal.datastore.dto.DocumentDTO;
 import com.personal.datastore.dto.FamilyMemberDTO;
 import com.personal.datastore.dto.InsuranceDTO;
 import com.personal.datastore.dto.InvestmentDTO;
+import com.personal.datastore.dto.MedicalRecordDTO;
+import com.personal.datastore.dto.PropertyDTO;
 import com.personal.datastore.dto.VehicleDTO;
 import com.personal.datastore.model.Document;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.model.Insurance;
 import com.personal.datastore.model.Investment;
+import com.personal.datastore.model.MedicalRecord;
+import com.personal.datastore.model.Property;
 import com.personal.datastore.model.Vehicle;
 import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.repository.FamilyRepository;
@@ -81,6 +85,22 @@ public class FamilyService {
             dto.setInsurances(insurances);
         }
 
+        if (member.getMedicalRecords() != null) {
+            List<MedicalRecordDTO> medicalRecords = member.getMedicalRecords()
+                    .stream()
+                    .map(this::mapMedicalRecord)
+                    .toList();
+            dto.setMedicalRecords(medicalRecords);
+        }
+
+        if (member.getProperties() != null) {
+            List<PropertyDTO> properties = member.getProperties()
+                    .stream()
+                    .map(this::mapProperty)
+                    .toList();
+            dto.setProperties(properties);
+        }
+
         return dto;
     }
 
@@ -126,6 +146,34 @@ public class FamilyService {
         dto.setSumAssured(insurance.getSumAssured());
         dto.setStartDate(insurance.getStartDate());
         dto.setExpiryDate(insurance.getExpiryDate());
+        return dto;
+    }
+
+    private MedicalRecordDTO mapMedicalRecord(MedicalRecord record) {
+        MedicalRecordDTO dto = new MedicalRecordDTO();
+        dto.setId(record.getId());
+        dto.setType(record.getType());
+        dto.setTitle(record.getTitle());
+        dto.setDoctorName(record.getDoctorName());
+        dto.setHospitalName(record.getHospitalName());
+        dto.setRecordDate(record.getRecordDate());
+        dto.setNotes(record.getNotes());
+        dto.setFilePath(record.getFilePath());
+        return dto;
+    }
+
+    private PropertyDTO mapProperty(Property property) {
+        PropertyDTO dto = new PropertyDTO();
+        dto.setId(property.getId());
+        dto.setType(property.getType());
+        dto.setAddress(property.getAddress());
+        dto.setCity(property.getCity());
+        dto.setState(property.getState());
+        dto.setPurchaseDate(property.getPurchaseDate());
+        dto.setPurchaseValue(property.getPurchaseValue());
+        dto.setCurrentValue(property.getCurrentValue());
+        dto.setIsRented(property.getIsRented());
+        dto.setRentalIncome(property.getRentalIncome());
         return dto;
     }
 }
