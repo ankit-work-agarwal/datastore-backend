@@ -29,6 +29,12 @@ public class FamilyService {
                 .toList();
     }
 
+    public void delete(Long id) {
+        repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Family member not found with id: " + id));
+        repository.deleteById(id);
+    }
+
     private FamilyMemberDTO mapToDTO(FamilyMember member) {
 
         FamilyMemberDTO dto = new FamilyMemberDTO();

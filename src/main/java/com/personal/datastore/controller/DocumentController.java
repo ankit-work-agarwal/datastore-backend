@@ -4,6 +4,7 @@ import com.personal.datastore.dto.DocumentDTO;
 import com.personal.datastore.model.Document;
 import com.personal.datastore.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,4 +29,11 @@ public class DocumentController {
     ) throws Exception {
         return service.save(doc, file);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.ok("Document deleted successfully");
+    }
 }
+
