@@ -37,6 +37,19 @@ public class PropertyService {
                 .toList();
     }
 
+    public List<PropertyDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByOwner_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public PropertyDTO getById(Long id) {
+        Property property = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
+        return mapToDTO(property);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
@@ -70,6 +83,9 @@ public class PropertyService {
         dto.setCurrentValue(property.getCurrentValue());
         dto.setIsRented(property.getIsRented());
         dto.setRentalIncome(property.getRentalIncome());
+        if (property.getOwner() != null) {
+            dto.setOwnerName(property.getOwner().getName());
+        }
         return dto;
     }
 }

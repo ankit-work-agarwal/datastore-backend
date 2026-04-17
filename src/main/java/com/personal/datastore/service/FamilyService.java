@@ -35,8 +35,8 @@ public class FamilyService {
     @Autowired
     private FamilyRepository repository;
 
-    public FamilyMember addMember(FamilyMember member) {
-        return repository.save(member);
+    public FamilyMemberDTO addMember(FamilyMember member) {
+        return mapToDTO(repository.save(member));
     }
 
     public List<FamilyMemberDTO> getAll() {
@@ -44,6 +44,12 @@ public class FamilyService {
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
+    }
+
+    public FamilyMemberDTO getById(Long id) {
+        FamilyMember member = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Family member not found with id: " + id));
+        return mapToDTO(member);
     }
 
     public void delete(Long id) {

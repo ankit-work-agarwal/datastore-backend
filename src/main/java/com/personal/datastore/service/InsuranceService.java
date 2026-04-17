@@ -37,6 +37,19 @@ public class InsuranceService {
                 .toList();
     }
 
+    public List<InsuranceDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByHolder_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public InsuranceDTO getById(Long id) {
+        Insurance insurance = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Insurance not found with id: " + id));
+        return mapToDTO(insurance);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Insurance not found with id: " + id));
@@ -66,6 +79,9 @@ public class InsuranceService {
         dto.setSumAssured(insurance.getSumAssured());
         dto.setStartDate(insurance.getStartDate());
         dto.setExpiryDate(insurance.getExpiryDate());
+        if (insurance.getHolder() != null) {
+            dto.setHolderName(insurance.getHolder().getName());
+        }
         return dto;
     }
 }

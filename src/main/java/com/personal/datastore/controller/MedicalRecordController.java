@@ -3,6 +3,7 @@ package com.personal.datastore.controller;
 import com.personal.datastore.dto.MedicalRecordDTO;
 import com.personal.datastore.model.MedicalRecord;
 import com.personal.datastore.service.MedicalRecordService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +18,23 @@ public class MedicalRecordController {
     private MedicalRecordService service;
 
     @PostMapping
-    public MedicalRecordDTO add(@RequestBody MedicalRecord record) {
+    public MedicalRecordDTO add(@Valid @RequestBody MedicalRecord record) {
         return service.save(record);
     }
 
     @GetMapping
-    public List<MedicalRecordDTO> getAll() {
+    public List<MedicalRecordDTO> getAll(@RequestParam(required = false) Long familyMemberId) {
+        if (familyMemberId != null) return service.getByFamilyMemberId(familyMemberId);
         return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public MedicalRecordDTO getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
     @PutMapping("/{id}")
-    public MedicalRecordDTO update(@PathVariable Long id, @RequestBody MedicalRecord record) {
+    public MedicalRecordDTO update(@PathVariable Long id, @Valid @RequestBody MedicalRecord record) {
         return service.update(id, record);
     }
 

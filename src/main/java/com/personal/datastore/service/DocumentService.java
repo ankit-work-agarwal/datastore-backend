@@ -1,4 +1,5 @@
 package com.personal.datastore.service;
+
 import com.personal.datastore.dto.DocumentDTO;
 import com.personal.datastore.exception.ResourceNotFoundException;
 import com.personal.datastore.model.Document;
@@ -8,16 +9,21 @@ import com.personal.datastore.repository.FamilyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 @Service
 public class DocumentService {
     private static final String UPLOAD_DIR = "C:\\Users\\SG0707512\\git-clones\\datastore\\src\\main\\resources\\uploads\\";
+
     @Autowired
     private DocumentRepository repository;
+
     @Autowired
     private FamilyRepository familyRepository;
+
     public DocumentDTO save(Document doc, MultipartFile file) throws IOException {
         File dir = new File(UPLOAD_DIR);
         if (!dir.exists()) dir.mkdirs();
@@ -32,17 +38,33 @@ public class DocumentService {
         }
         return mapToDTO(repository.save(doc));
     }
+
     public List<DocumentDTO> getAll() {
         return repository.findAll()
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
     }
+
+    public List<DocumentDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByOwner_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public DocumentDTO getById(Long id) {
+        Document doc = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
+        return mapToDTO(doc);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
         repository.deleteById(id);
     }
+
     public DocumentDTO update(Long id, Document updated) {
         Document existing = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
@@ -51,6 +73,12 @@ public class DocumentService {
         existing.setExpiryDate(updated.getExpiryDate());
         return mapToDTO(repository.save(existing));
     }
+
+    public Document getRawById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + id));
+    }
+
     private DocumentDTO mapToDTO(Document doc) {
         DocumentDTO dto = new DocumentDTO();
         dto.setId(doc.getId());
@@ -58,6 +86,9 @@ public class DocumentService {
         dto.setType(doc.getType());
         dto.setFilePath(doc.getFilePath());
         dto.setExpiryDate(doc.getExpiryDate());
+        if (doc.getOwner() != null) {
+            dto.setOwnerName(doc.getOwner().getName());
+        }
         return dto;
     }
 }

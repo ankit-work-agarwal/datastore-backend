@@ -37,6 +37,19 @@ public class BankAccountService {
                 .toList();
     }
 
+    public List<BankAccountDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByOwner_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public BankAccountDTO getById(Long id) {
+        BankAccount account = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Bank account not found with id: " + id));
+        return mapToDTO(account);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Bank account not found with id: " + id));
@@ -66,7 +79,9 @@ public class BankAccountService {
         dto.setBranchName(account.getBranchName());
         dto.setBalance(account.getBalance());
         dto.setOpenedDate(account.getOpenedDate());
+        if (account.getOwner() != null) {
+            dto.setOwnerName(account.getOwner().getName());
+        }
         return dto;
     }
 }
-

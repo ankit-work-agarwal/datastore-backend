@@ -3,6 +3,7 @@ package com.personal.datastore.controller;
 import com.personal.datastore.dto.FamilyMemberDTO;
 import com.personal.datastore.model.FamilyMember;
 import com.personal.datastore.service.FamilyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class FamilyMemberController {
     private FamilyService service;
 
     @PostMapping
-    public FamilyMember addMember(@RequestBody FamilyMember member) {
+    public FamilyMemberDTO addMember(@Valid @RequestBody FamilyMember member) {
         return service.addMember(member);
     }
 
@@ -26,8 +27,13 @@ public class FamilyMemberController {
         return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public FamilyMemberDTO getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
     @PutMapping("/{id}")
-    public FamilyMemberDTO update(@PathVariable Long id, @RequestBody FamilyMember member) {
+    public FamilyMemberDTO update(@PathVariable Long id, @Valid @RequestBody FamilyMember member) {
         return service.update(id, member);
     }
 

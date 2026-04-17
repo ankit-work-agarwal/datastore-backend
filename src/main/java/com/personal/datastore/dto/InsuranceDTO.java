@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@JsonPropertyOrder({"id", "type", "policyNumber", "provider", "premiumAmount", "sumAssured", "startDate", "expiryDate"})
+@JsonPropertyOrder({"id", "type", "policyNumber", "provider", "premiumAmount", "sumAssured", "startDate", "expiryDate", "holderName"})
 public class InsuranceDTO {
 
     private Long id;
@@ -18,5 +18,6 @@ public class InsuranceDTO {
     private BigDecimal sumAssured;
     private LocalDate startDate;
     private LocalDate expiryDate;
+    private String holderName;
 }
 

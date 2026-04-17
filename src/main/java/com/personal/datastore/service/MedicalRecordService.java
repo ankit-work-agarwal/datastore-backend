@@ -37,6 +37,19 @@ public class MedicalRecordService {
                 .toList();
     }
 
+    public List<MedicalRecordDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByMember_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public MedicalRecordDTO getById(Long id) {
+        MedicalRecord record = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
+        return mapToDTO(record);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
@@ -66,6 +79,9 @@ public class MedicalRecordService {
         dto.setRecordDate(record.getRecordDate());
         dto.setNotes(record.getNotes());
         dto.setFilePath(record.getFilePath());
+        if (record.getMember() != null) {
+            dto.setMemberName(record.getMember().getName());
+        }
         return dto;
     }
 }

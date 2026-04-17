@@ -37,6 +37,19 @@ public class ContactService {
                 .toList();
     }
 
+    public List<ContactDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByAddedBy_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public ContactDTO getById(Long id) {
+        Contact contact = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Contact not found with id: " + id));
+        return mapToDTO(contact);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Contact not found with id: " + id));
@@ -64,6 +77,9 @@ public class ContactService {
         dto.setEmail(contact.getEmail());
         dto.setOrganization(contact.getOrganization());
         dto.setNotes(contact.getNotes());
+        if (contact.getAddedBy() != null) {
+            dto.setAddedByName(contact.getAddedBy().getName());
+        }
         return dto;
     }
 }

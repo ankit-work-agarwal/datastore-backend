@@ -32,6 +32,19 @@ public class SubscriptionService {
                 .toList();
     }
 
+    public List<SubscriptionDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByOwner_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public SubscriptionDTO getById(Long id) {
+        Subscription subscription = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Subscription not found with id: " + id));
+        return mapToDTO(subscription);
+    }
+
     public SubscriptionDTO update(Long id, Subscription updated) {
         Subscription existing = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Subscription not found with id: " + id));
@@ -72,7 +85,9 @@ public class SubscriptionService {
         dto.setRenewalDate(subscription.getRenewalDate());
         dto.setIsActive(subscription.getIsActive());
         dto.setNotes(subscription.getNotes());
+        if (subscription.getOwner() != null) {
+            dto.setOwnerName(subscription.getOwner().getName());
+        }
         return dto;
     }
 }
-

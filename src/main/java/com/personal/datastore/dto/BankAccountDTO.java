@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@JsonPropertyOrder({"id", "accountType", "bankName", "accountNumber", "ifscCode", "branchName", "balance", "openedDate"})
+@JsonPropertyOrder({"id", "accountType", "bankName", "accountNumber", "ifscCode", "branchName", "balance", "openedDate", "ownerName"})
 public class BankAccountDTO {
 
     private Long id;
@@ -18,5 +18,6 @@ public class BankAccountDTO {
     private String branchName;
     private BigDecimal balance;
     private LocalDate openedDate;
+    private String ownerName;
 }
 

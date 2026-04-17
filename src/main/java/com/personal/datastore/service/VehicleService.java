@@ -26,6 +26,19 @@ public class VehicleService {
                 .toList();
     }
 
+    public List<VehicleDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByOwner_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public VehicleDTO getById(Long id) {
+        Vehicle vehicle = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));
+        return mapToDTO(vehicle);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));
@@ -47,6 +60,9 @@ public class VehicleService {
         dto.setType(vehicle.getType());
         dto.setModel(vehicle.getModel());
         dto.setRegistrationNumber(vehicle.getRegistrationNumber());
+        if (vehicle.getOwner() != null) {
+            dto.setOwnerName(vehicle.getOwner().getName());
+        }
         return dto;
     }
 }

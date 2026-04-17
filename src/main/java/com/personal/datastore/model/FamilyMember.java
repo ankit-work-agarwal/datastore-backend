@@ -2,6 +2,8 @@ package com.personal.datastore.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.List;
@@ -14,9 +16,15 @@ public class FamilyMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotBlank(message = "Relation is required")
     private String relation;
+
     private String phone;
+
+    @Email(message = "Email must be valid")
     private String email;
 
     @JsonManagedReference("vehicle-ref")

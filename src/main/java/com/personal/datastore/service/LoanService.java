@@ -32,6 +32,19 @@ public class LoanService {
                 .toList();
     }
 
+    public List<LoanDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByBorrower_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public LoanDTO getById(Long id) {
+        Loan loan = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id: " + id));
+        return mapToDTO(loan);
+    }
+
     public LoanDTO update(Long id, Loan updated) {
         Loan existing = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id: " + id));
@@ -76,7 +89,9 @@ public class LoanService {
         dto.setStartDate(loan.getStartDate());
         dto.setEndDate(loan.getEndDate());
         dto.setStatus(loan.getStatus());
+        if (loan.getBorrower() != null) {
+            dto.setBorrowerName(loan.getBorrower().getName());
+        }
         return dto;
     }
 }
-

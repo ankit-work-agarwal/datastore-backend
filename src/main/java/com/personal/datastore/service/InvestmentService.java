@@ -37,6 +37,19 @@ public class InvestmentService {
                 .toList();
     }
 
+    public List<InvestmentDTO> getByFamilyMemberId(Long familyMemberId) {
+        return repository.findByHolder_Id(familyMemberId)
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public InvestmentDTO getById(Long id) {
+        Investment investment = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Investment not found with id: " + id));
+        return mapToDTO(investment);
+    }
+
     public void delete(Long id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Investment not found with id: " + id));
@@ -66,7 +79,9 @@ public class InvestmentService {
         dto.setCurrentValue(investment.getCurrentValue());
         dto.setStartDate(investment.getStartDate());
         dto.setMaturityDate(investment.getMaturityDate());
+        if (investment.getHolder() != null) {
+            dto.setHolderName(investment.getHolder().getName());
+        }
         return dto;
     }
 }
-

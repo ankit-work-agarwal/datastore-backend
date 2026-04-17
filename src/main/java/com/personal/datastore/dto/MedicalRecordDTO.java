@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-@JsonPropertyOrder({"id", "type", "title", "doctorName", "hospitalName", "recordDate", "notes", "filePath"})
+@JsonPropertyOrder({"id", "type", "title", "doctorName", "hospitalName", "recordDate", "notes", "filePath", "memberName"})
 public class MedicalRecordDTO {
 
     private Long id;
@@ -17,5 +17,6 @@ public class MedicalRecordDTO {
     private LocalDate recordDate;
     private String notes;
     private String filePath;
+    private String memberName;
 }
 
